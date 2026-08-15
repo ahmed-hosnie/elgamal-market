@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>الجمل ماركت | سوبر ماركت كل احتياجاتك في مكان واحد 🛒🇪🇬</title>
+  <meta name="description" content="الجمل ماركت - أكبر سوبر ماركت في الخانكة، كل احتياجاتك في مكان واحد: البقالة، المجمدات، المشروبات، الألبان، السناكس بأفضل الأسعار والتوصيل السريع.">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛒</text></svg>">
+
+  <!-- Google Fonts: Cairo & Tajawal -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- ==================== 1. Top Navbar Strip ==================== -->
+  <div class="top-nav-bar">
+    <div class="container top-nav-flex">
+      <!-- Right: Phone & User Login -->
+      <div class="top-nav-right">
+        <a href="tel:01099887766" class="top-nav-link">
+          <i class="fas fa-phone-alt top-icon"></i>
+          <span dir="ltr">01099887766</span>
+        </a>
+        <span class="nav-divider">|</span>
+        <button class="top-nav-link" onclick="openLocationModal()">
+          <i class="fas fa-user-circle top-icon"></i>
+          <span>تسجيل الدخول / إنشاء حساب</span>
+        </button>
+      </div>
+
+      <!-- Center: Delivery Time Promo -->
+      <div class="top-nav-center">
+        <i class="fas fa-truck-fast delivery-truck-icon"></i>
+        <span>توصيل سريع خلال <strong>30 - 60 دقيقة</strong> ⚡</span>
+      </div>
+
+      <!-- Left: Delivery Location Dropdown -->
+      <div class="top-nav-left">
+        <div class="location-select-btn" onclick="openLocationModal()">
+          <i class="fas fa-map-marker-alt"></i>
+          <span>توصيل إلى: <strong>الخانكة - القليوبية</strong></span>
+          <i class="fas fa-chevron-down mr-1"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 2. Main Header (Logo, Search, Cart) ==================== -->
+  <header class="supermarket-main-header">
+    <div class="container header-grid">
+      <!-- Logo (Right) -->
+      <a href="index.html" class="brand-logo-wrap" title="الجمل ماركت">
+        <div class="logo-cart-badge">
+          <i class="fas fa-shopping-cart"></i>
+        </div>
+        <div class="logo-text-box">
+          <h1 class="logo-main-text">الجمل <span class="text-gold">ماركت</span></h1>
+          <span class="logo-sub-text">سوبر ماركت</span>
+        </div>
+      </a>
+
+      <!-- Center Wide Search Bar -->
+      <div class="header-search-wrap">
+        <div class="search-input-group">
+          <input type="text" id="searchInput" class="super-search-input" placeholder="ابحث عن منتج، ماركة، نكهة..." autocomplete="off">
+          <button id="searchClearBtn" class="search-clear-btn" title="مسح"><i class="fas fa-times"></i></button>
+          <button class="search-btn-gold" onclick="executeSearch()" title="بحث">
+            <i class="fas fa-search"></i>
+          </button>
+        </div>
+        <!-- Live Search Dropdown -->
+        <div id="searchDropdown" class="live-search-dropdown"></div>
+      </div>
+
+      <!-- Left Header Actions (Wishlist & Cart) -->
+      <div class="header-action-group">
+        <!-- Wishlist -->
+        <button class="header-icon-action" onclick="showWishlistOnly()" title="المفضلة">
+          <div class="icon-rel">
+            <i class="far fa-heart"></i>
+            <span class="action-badge wishlist-count" style="display:none;">0</span>
+          </div>
+          <span class="action-name">المفضلة</span>
+        </button>
+
+        <!-- Cart Box -->
+        <button class="header-icon-action cart-action-btn" onclick="openCart()" title="عربة التسوق">
+          <div class="icon-rel">
+            <i class="fas fa-shopping-cart"></i>
+            <span class="action-badge red-badge cart-count" id="headerCartBadge">0</span>
+          </div>
+          <span class="action-name">السلة</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== 3. Secondary Navigation Bar ==================== -->
+  <nav class="sub-nav-bar">
+    <div class="container sub-nav-flex">
+      <!-- Active Home Button (Gold) -->
+      <a href="index.html" class="nav-btn-home active">
+        <i class="fas fa-home"></i>
+        <span>الرئيسية</span>
+      </a>
+
+      <!-- Navigation Links -->
+      <div class="sub-nav-links">
+        <button class="sub-nav-item" onclick="scrollToCatalog('all')">
+          <i class="fas fa-bars"></i>
+          <span>جميع الأقسام</span>
+        </button>
+
+        <button class="sub-nav-item" onclick="scrollToCatalog('new')">
+          <span class="pill-badge-red">جديد</span>
+          <span>منتجات جديدة</span>
+        </button>
+
+        <button class="sub-nav-item" onclick="scrollToCatalog('bestseller')">
+          <i class="fas fa-fire text-gold"></i>
+          <span>الأكثر مبيعاً</span>
+        </button>
+
+        <button class="sub-nav-item" onclick="openLocationModal()">
+          <i class="fas fa-box"></i>
+          <span>تتبع الطلب</span>
+        </button>
+
+        <a href="https://wa.me/201099887766" target="_blank" class="sub-nav-item">
+          <i class="fas fa-headset"></i>
+          <span>تواصل معنا</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==================== 4. Hero Banner Section ==================== -->
+  <section class="hero-showcase-section">
+    <div class="container">
+      <div class="hero-banner-card">
+        <!-- Right Content (Text & CTAs) -->
+        <div class="hero-text-content">
+          <div class="exclusive-offer-badge" style="background:#16a34a;">
+            <i class="fas fa-tags"></i>
+            <span>سعر المستهلك الرسمي 🏷️</span>
+          </div>
+          <h2 class="hero-headline">
+            كل احتياجاتك<br>
+            <span class="text-gold">في مكان واحد</span>
+          </h2>
+          <div class="hero-features-list">
+            <div class="hero-feature-chip">
+              <i class="fas fa-medal"></i>
+              <span>جودة عالية</span>
+            </div>
+            <div class="hero-feature-chip">
+              <i class="fas fa-tags"></i>
+              <span>أسعار منافسة</span>
+            </div>
+            <div class="hero-feature-chip">
+              <i class="fas fa-truck-fast"></i>
+              <span>توصيل سريع</span>
+            </div>
+          </div>
+          <div class="hero-cta-wrap">
+            <button class="btn-hero-shop" onclick="scrollToCatalog('all')">
+              <span>تسوق الآن</span>
+              <i class="fas fa-arrow-left"></i>
+            </button>
+            <button class="btn-hero-whatsapp" onclick="openCheckoutModal()">
+              <i class="fab fa-whatsapp"></i>
+              <span>طلب بالواتساب</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Left Content (Shopping Cart Graphic) -->
+        <div class="hero-image-content">
+          <img src="images/hero_cart.png" alt="عربة تسوق الجمل ماركت" class="hero-cart-img" onerror="this.src='images/hero_banner_full.jpg'">
+        </div>
+
+        <!-- Slider Navigation Controls -->
+        <button class="hero-slider-arrow arrow-next" onclick="rotateHeroSlide(1)"><i class="fas fa-chevron-right"></i></button>
+        <button class="hero-slider-arrow arrow-prev" onclick="rotateHeroSlide(-1)"><i class="fas fa-chevron-left"></i></button>
+        <div class="hero-dots-indicator">
+          <span class="dot active"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 5. Features Strip (4 White Rounded Cards) ==================== -->
+  <section class="features-cards-section">
+    <div class="container">
+      <div class="features-4-grid">
+        <div class="feature-white-card">
+          <div class="feature-card-icon"><i class="fas fa-credit-card"></i></div>
+          <div class="feature-card-text">
+            <h4>طرق دفع آمنة</h4>
+            <p>دفع عند الاستلام أو أونلاين</p>
+          </div>
+        </div>
+
+        <div class="feature-white-card">
+          <div class="feature-card-icon"><i class="fas fa-shield-halved"></i></div>
+          <div class="feature-card-text">
+            <h4>منتجات أصلية 100%</h4>
+            <p>جودة وطزاجة مضمونة</p>
+          </div>
+        </div>
+
+        <div class="feature-white-card">
+          <div class="feature-card-icon"><i class="fas fa-tags"></i></div>
+          <div class="feature-card-text">
+            <h4>أفضل الأسعار</h4>
+            <p>أسعار حقيقية ومحدثة</p>
+          </div>
+        </div>
+
+        <div class="feature-white-card">
+          <div class="feature-card-icon"><i class="fas fa-motorcycle"></i></div>
+          <div class="feature-card-text">
+            <h4>توصيل سريع</h4>
+            <p>لكافة مناطق الخانكة</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 6. "تسوق حسب الأقسام" (Categories Showcase) ==================== -->
+  <section class="departments-showcase-section" id="departmentsSection">
+    <div class="container">
+      <div class="section-title-bar">
+        <div class="section-title-right">
+          <h3>تسوق حسب الأقسام</h3>
+        </div>
+        <button class="section-view-all-link" onclick="scrollToCatalog('all')">
+          <span>عرض كل الأقسام</span>
+          <i class="fas fa-chevron-left"></i>
+        </button>
+      </div>
+
+      <div class="departments-scroll-grid" id="departmentsContainer">
+        <!-- Rendered via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== 7. Full Products Catalog (Sidebar + Grid) ==================== -->
+  <main class="supermarket-catalog-section" id="catalogSection">
+    <div class="container catalog-2col-layout">
+      
+      <!-- Right Sidebar (Faceted Filters) -->
+      <aside class="catalog-filters-sidebar">
+        <div class="sidebar-inner-sticky">
+          
+          <div class="sidebar-header-box">
+            <h4><i class="fas fa-sliders-h text-gold"></i> تصفية المنتجات</h4>
+            <div class="sidebar-header-actions">
+              <button class="btn-reset-filters" onclick="resetAllFilters()">تصفير الفلاتر</button>
+              <button class="btn-close-mobile-sidebar" onclick="toggleMobileFilter(false)" title="إغلاق الفلاتر"><i class="fas fa-times"></i></button>
+            </div>
+          </div>
+
+          <!-- Filter 1: Categories List -->
+          <div class="filter-section-block">
+            <h5 class="filter-block-title">الأقسام والفئات</h5>
+            <div class="filter-options-list" id="sidebarCategoryList">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Filter 2: Egyptian Origin Only -->
+          <div class="filter-section-block">
+            <label class="super-checkbox-label">
+              <input type="checkbox" id="sidebarEgyptianOnly" onchange="toggleEgyptianFilter(this.checked)">
+              <span class="custom-check-box"></span>
+              <span class="label-text-box">
+                <strong>منتجات مصرية فقط 🇪🇬</strong>
+                <small class="text-muted d-block">دعم المنتج والصناعة الوطنية</small>
+              </span>
+            </label>
+          </div>
+
+          <!-- Filter 3: Brands with Search -->
+          <div class="filter-section-block">
+            <h5 class="filter-block-title">العلامة التجارية (الماركة)</h5>
+            <div class="brand-filter-search">
+              <i class="fas fa-search"></i>
+              <input type="text" id="brandSearchInput" placeholder="ابحث في الماركات..." oninput="filterBrandsList(this.value)">
+            </div>
+            <div class="filter-options-list scrollable-list" id="sidebarBrandList">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Filter 4: Price Slider -->
+          <div class="filter-section-block">
+            <h5 class="filter-block-title">نطاق السعر (ج.م)</h5>
+            <div class="price-inputs-flex">
+              <div class="price-input-box">
+                <span>من</span>
+                <input type="number" id="minPriceInput" min="0" max="600" value="0" onchange="applyPriceFilter()">
+              </div>
+              <div class="price-input-box">
+                <span>إلى</span>
+                <input type="number" id="maxPriceInput" min="0" max="600" value="600" onchange="applyPriceFilter()">
+              </div>
+            </div>
+            <input type="range" id="priceRangeSlider" min="0" max="600" value="600" class="gold-range-slider" oninput="document.getElementById('maxPriceInput').value = this.value; applyPriceFilter();">
+          </div>
+
+        </div>
+      </aside>
+
+      <!-- Left Main Catalog Grid -->
+      <section class="catalog-main-content">
+        
+        <!-- Top Toolbar -->
+        <div class="catalog-control-toolbar">
+          <div class="toolbar-breadcrumbs">
+            <a href="index.html">الرئيسية</a>
+            <i class="fas fa-chevron-left"></i>
+            <span>السوبر ماركت</span>
+            <i class="fas fa-chevron-left"></i>
+            <strong class="text-gold" id="currentCategoryBreadcrumb">جميع المنتجات</strong>
+          </div>
+
+          <div class="toolbar-sort-count">
+            <button class="btn-mobile-filter-trigger" onclick="toggleMobileFilter(true)">
+              <i class="fas fa-sliders-h"></i>
+              <span>فلترة وتصنيف</span>
+            </button>
+            <span class="count-badge" id="productsCountDisplay">عرض <strong>582</strong> منتج</span>
+            <div class="sort-select-wrap">
+              <label>ترتيب حسب:</label>
+              <select id="sortSelect" class="super-sort-select" onchange="handleSortChange(this.value)">
+                <option value="default">الأكثر تطابقاً ورواجاً</option>
+                <option value="price-asc">السعر: من الأقل للأعلى</option>
+                <option value="price-desc">السعر: من الأعلى للأقل</option>
+                <option value="name-asc">الاسم: أ - ي</option>
+                <option value="rating-desc">الأعلى تقييماً ★</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Active Filter Tags Container -->
+        <div class="active-tags-row" id="activeFilterTagsContainer"></div>
+
+        <!-- Products Grid Container -->
+        <div class="supermarket-products-grid" id="productsGrid">
+          <!-- Rendered via JS -->
+        </div>
+
+        <!-- Empty State Container -->
+        <div class="catalog-empty-state" id="emptyState" style="display:none;">
+          <div class="empty-icon"><i class="fas fa-search-minus"></i></div>
+          <h3>لم نتمكن من العثور على أي منتج يطابق بحثك</h3>
+          <p>جرب البحث بكلمات مختلفة أو قم بتصفير الفلاتر لعرض جميع المنتجات المتاحة.</p>
+          <button class="btn-hero-shop mt-3" onclick="resetAllFilters()">عرض كل المنتجات</button>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ==================== 9. Slide-Over Cart Drawer ==================== -->
+  <div class="cart-backdrop" id="cartOverlay" onclick="closeCart()"></div>
+  <aside class="super-cart-drawer" id="cartDrawer">
+    
+    <div class="cart-drawer-header">
+      <div class="drawer-title-wrap">
+        <i class="fas fa-shopping-bag text-gold"></i>
+        <h3>عربة التسوق (<span id="cartItemsCountText">0</span>)</h3>
+      </div>
+      <button class="btn-close-drawer" onclick="closeCart()"><i class="fas fa-times"></i></button>
+    </div>
+
+    <!-- Free Delivery Progress Bar -->
+    <div class="cart-free-delivery-strip">
+      <div class="free-delivery-info-row">
+        <i class="fas fa-truck-fast text-gold"></i>
+        <span id="freeDeliveryText">أضف منتجات بـ 150 ج.م للحصول على توصيل مجاني</span>
+      </div>
+      <div class="delivery-progress-track">
+        <div class="delivery-progress-fill" id="freeDeliveryFill" style="width:0%;"></div>
+      </div>
+    </div>
+
+    <!-- Cart Items Scroll Body -->
+    <div class="cart-drawer-items-list" id="cartItemsBody">
+      <!-- Items dynamically populated -->
+    </div>
+
+    <!-- Cart Footer & Checkout -->
+    <div class="cart-drawer-bottom" id="cartFooter">
+      <div class="cart-cost-breakdown">
+        <div class="cost-line">
+          <span>المجموع الفرعي:</span>
+          <strong id="cartSubtotal">0.00 ج.م</strong>
+        </div>
+        <div class="cost-line">
+          <span>رسوم التوصيل (الخانكة):</span>
+          <span id="cartDelivery" class="badge-free-delivery">مجاني</span>
+        </div>
+        <div class="cost-line total-cost-line">
+          <span>الإجمالي النهائي:</span>
+          <strong class="text-gold text-xl" id="cartTotal">0.00 ج.م</strong>
+        </div>
+      </div>
+
+      <div class="cart-buttons-group">
+        <button class="btn-checkout-whatsapp" onclick="openCheckoutModal()">
+          <i class="fab fa-whatsapp"></i>
+          <span>إتمام الطلب عبر الواتساب</span>
+        </button>
+        <button class="btn-empty-cart" onclick="clearCart()">
+          <i class="fas fa-trash-alt"></i>
+          <span>تفريغ السلة</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ==================== 10. Quick View Modal ==================== -->
+  <div class="modal-backdrop" id="quickViewOverlay" onclick="closeQuickView()"></div>
+  <div class="quick-view-dialog" id="quickViewModal">
+    <button class="btn-modal-close" onclick="closeQuickView()"><i class="fas fa-times"></i></button>
+    <div class="quick-view-body" id="quickViewBody"></div>
+  </div>
+
+  <!-- ==================== 11. Location Modal ==================== -->
+  <div class="modal-backdrop" id="locationOverlay" onclick="closeLocationModal()"></div>
+  <div class="location-dialog" id="locationModal">
+    <div class="modal-head">
+      <h3><i class="fas fa-map-marker-alt text-gold"></i> فرع وتفاصيل التوصيل</h3>
+      <button class="btn-modal-close" onclick="closeLocationModal()"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body-content">
+      <p>خدمة التوصيل السوبر ماركت السريع لـ <strong>الجمل ماركت</strong> تغطي حالياً:</p>
+      <div class="location-highlight-card">
+        <i class="fas fa-store-alt text-gold text-2xl"></i>
+        <div>
+          <strong>الفرع الرئيسي:</strong> مدينة الخانكة - منطقة الحتة - محافظة القليوبية 📍
+        </div>
+      </div>
+      <p class="text-muted text-sm mt-2">يصلك طلبك طازجاً ومبرداً ومغلفاً بعناية خلال <strong>30 - 60 دقيقة</strong> من تأكيد الطلب بالواتساب.</p>
+      <button class="btn-hero-shop w-100 mt-4" onclick="closeLocationModal()">تأكيد واستمرار التسوق</button>
+    </div>
+  </div>
+
+  <!-- ==================== 12. WhatsApp Checkout Modal ==================== -->
+  <div class="modal-backdrop" id="checkoutOverlay" onclick="closeCheckoutModal()"></div>
+  <div class="checkout-dialog" id="checkoutModal">
+    <div class="modal-head">
+      <div class="flex-row-center">
+        <i class="fab fa-whatsapp text-green text-2xl ml-2"></i>
+        <h3>تأكيد الطلب الفوري عبر الواتساب</h3>
+      </div>
+      <button class="btn-modal-close" onclick="closeCheckoutModal()"><i class="fas fa-times"></i></button>
+    </div>
+    
+    <div class="modal-body-content">
+      <form id="checkoutForm" onsubmit="handleCheckoutSubmit(event)">
+        <div class="form-group-field">
+          <label for="custName"><i class="fas fa-user text-gold"></i> اسم العميل الكريم: <span class="text-red">*</span></label>
+          <input type="text" id="custName" class="form-input-control" placeholder="مثال: أحمد الجمل" required>
+        </div>
+
+        <div class="form-group-field">
+          <label for="custPhone"><i class="fas fa-phone text-gold"></i> رقم الهاتف المحمول: <span class="text-red">*</span></label>
+          <input type="tel" id="custPhone" class="form-input-control" placeholder="مثال: 01012345678" required>
+        </div>
+
+        <div class="form-group-field">
+          <label for="custAddress"><i class="fas fa-map-marked-alt text-gold"></i> العنوان بالتفصيل (الخانكة / الحتة): <span class="text-red">*</span></label>
+          <input type="text" id="custAddress" class="form-input-control" placeholder="مثال: الخانكة، منطقة الحتة، بجوار مدرسة..." required>
+        </div>
+
+        <div class="form-group-field">
+          <label for="custNotes"><i class="fas fa-comment-dots text-gold"></i> أي ملاحظات على الطلب:</label>
+          <textarea id="custNotes" class="form-input-control" rows="2" placeholder="مثال: يرجي إحضار المشروبات مثلجة..."></textarea>
+        </div>
+
+        <div class="order-invoice-preview">
+          <div class="preview-line">
+            <span>عدد الأصناف:</span>
+            <strong id="checkoutItemsCount">0</strong>
+          </div>
+          <div class="preview-line total-preview">
+            <span>إجمالي الفاتورة:</span>
+            <strong id="checkoutTotalAmount" class="text-gold text-lg">0.00 ج.م</strong>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-checkout-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+          <span>إرسال الطلب لخدمة العملاء فوراً</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="super-toast-container"></div>
+
+  <!-- ==================== 13. Supermarket Footer ==================== -->
+  <footer class="supermarket-main-footer">
+    <div class="footer-guarantees-strip">
+      <div class="container guarantees-4-grid">
+        <div class="guarantee-box">
+          <i class="fas fa-truck-fast text-gold"></i>
+          <div>
+            <h4>توصيل سريع ومبرد</h4>
+            <p>يصلك خلال 30-60 دقيقة في الخانكة</p>
+          </div>
+        </div>
+        <div class="guarantee-box">
+          <i class="fas fa-tags text-gold"></i>
+          <div>
+            <h4>أسعار المستهلك الرسمية</h4>
+            <p>مطابقة لأسعار الشركات والسوق 100%</p>
+          </div>
+        </div>
+        <div class="guarantee-box">
+          <i class="fas fa-shield-alt text-gold"></i>
+          <div>
+            <h4>جودة وطزاجة مضمونة</h4>
+            <p>جميع المنتجات أصلية وسارية الصلاحية</p>
+          </div>
+        </div>
+        <div class="guarantee-box">
+          <i class="fab fa-whatsapp text-green"></i>
+          <div>
+            <h4>خدمة عملاء واتساب 24/7</h4>
+            <p>جاهزون لتلقي وتجهيز طلبكم فوراً</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container footer-content-wrap">
+      <div class="footer-cols-grid">
+        <div class="footer-col brand-col">
+          <div class="footer-logo-title">
+            <i class="fas fa-shopping-cart text-gold"></i>
+            <span>الجمل <strong class="text-gold">ماركت</strong> 🛒</span>
+          </div>
+          <p>سوبر ماركت "الجمل ماركت" - الخانكة، الوجهة الأولى لجميع احتياجاتك من السوبر ماركت، البقالة، المجمدات، المشروبات، الألبان، والسناكس بأفضل الأسعار والتوصيل السريع.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>أقسام السوبر ماركت</h4>
+          <ul class="footer-nav-list">
+            <li><a href="#departmentsSection" onclick="filterByCategory('noodles')">النودلز وسريعة التحضير 🍜</a></li>
+            <li><a href="#departmentsSection" onclick="filterByCategory('frozen')">المجمدات واللحوم 🍗</a></li>
+            <li><a href="#departmentsSection" onclick="filterByCategory('snacks')">السناكس والحلويات 🍫</a></li>
+            <li><a href="#departmentsSection" onclick="filterByCategory('drinks')">المشروبات والعصائر 🥤</a></li>
+            <li><a href="#departmentsSection" onclick="filterByCategory('dairy')">الألبان ومنتجاتها 🧀</a></li>
+            <li><a href="#departmentsSection" onclick="filterByCategory('groceries')">مستلزمات الطبخ والبيت 🥫</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>الفرع والتواصل</h4>
+          <ul class="footer-contact-info">
+            <li><i class="fas fa-map-marker-alt text-gold"></i> الخانكة - منطقة الحتة - محافظة القليوبية</li>
+            <li><i class="fas fa-phone-alt text-gold"></i> الخط الساخن: 01099887766</li>
+            <li><i class="fab fa-whatsapp text-green"></i> واتساب الطلبات: 01099887766</li>
+            <li><i class="fas fa-clock text-gold"></i> مواعيد العمل: يومياً من 8 صباحاً حتى 2 بعد منتصف الليل</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom-copyright">
+      <div class="container text-center">
+        <p>© 2026 جميع الحقوق محفوظة لـ <strong>الجمل ماركت (El-Gamal Market)</strong> 🛒🇪🇬 | كل احتياجاتك في مكان واحد</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==================== 14. Mobile Filter Backdrop Overlay ==================== -->
+  <div class="mobile-filter-backdrop" id="mobileFilterOverlay" onclick="toggleMobileFilter(false)"></div>
+
+  <!-- ==================== 15. Carrefour Mobile Fixed Bottom Navigation ==================== -->
+  <div class="mobile-bottom-nav">
+    <a href="index.html" class="mob-nav-item active">
+      <i class="fas fa-home"></i>
+      <span>الرئيسية</span>
+    </a>
+    <button class="mob-nav-item" onclick="scrollToDepartments()">
+      <i class="fas fa-th-large"></i>
+      <span>الأقسام</span>
+    </button>
+    <button class="mob-nav-item mob-cart-btn" onclick="openCart()">
+      <div class="mob-icon-wrap">
+        <i class="fas fa-shopping-bag"></i>
+        <span class="action-badge red-badge cart-count">0</span>
+      </div>
+      <span>السلة</span>
+    </button>
+    <button class="mob-nav-item" onclick="showWishlistOnly()">
+      <div class="mob-icon-wrap">
+        <i class="far fa-heart"></i>
+        <span class="action-badge wishlist-count" style="display:none;">0</span>
+      </div>
+      <span>المفضلة</span>
+    </button>
+    <a href="https://wa.me/201099887766" target="_blank" class="mob-nav-item text-green">
+      <i class="fab fa-whatsapp text-green"></i>
+      <span>واتساب</span>
+    </a>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/products.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

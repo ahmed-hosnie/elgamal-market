@@ -1,0 +1,170 @@
+# -*- coding: utf-8 -*-
+import os
+import shutil
+import json
+
+src_dir = r'C:\Users\HP\.gemini\antigravity\brain\bc22e49c-1f41-4f54-b8be-c918950b6a93\.user_uploaded'
+dest_dir = r'c:\Users\HP\Desktop\elgamal market\images'
+
+os.makedirs(dest_dir, exist_ok=True)
+
+# Comprehensive image mapping
+image_copy_map = {
+    # Frozen foods (Farm Frites, Atyab, Koki, Halwani, Chiquita, Dayem, El Tawabel)
+    'media_1786696503399.png': 'farm-frites-pommes-frites-1kg.png',
+    'media_1786696507832.png': 'farm-frites-pommes-frites-2.5kg.png',
+    'media_1786696527593.png': 'farm-frites-thin-fries-1kg.png',
+    'media_1786696531054.png': 'atyab-chicken-strips-spicy-1kg.png',
+    'media_1786696536312.png': 'atyab-chicken-strips-normal-1kg.png',
+    'media_1786696539874.png': 'atyab-chicken-strips-400g.png',
+    'media_1786696543411.png': 'atyab-chicken-pane-20pcs.png',
+    'media_1786696551599.png': 'atyab-chicken-burger-pane-6pcs.png',
+    'media_1786696555456.png': 'atyab-chicken-nuggets-20pcs.png',
+    'media_1786696560493.png': 'atyab-oriental-sausages.png',
+    'media_1786696568990.png': 'koki-chicken-strips-1kg.png',
+    'media_1786696579118.png': 'koki-beef-burger-20pcs.png',
+    'media_1786696586675.png': 'koki-nuggets-fries-60pcs.png',
+    'media_1786696594409.png': 'koki-chicken-burger-8pcs.png',
+    'media_1786696599929.png': 'koki-chicken-pane-spicy-20pcs.png',
+    'media_1786696604726.png': 'koki-beef-hotdog-12pcs.png',
+    'media_1786696609966.png': 'koki-gold-beef-burger-6pcs.png',
+    'media_1786696633324.png': 'koki-crunchy-chicken-drumsticks.png',
+    'media_1786696640878.png': 'halwani-jumbo-beef-burger-1kg.png',
+    'media_1786696645139.png': 'halwani-crunchy-strips-1kg.png',
+    'media_1786696648522.png': 'halwani-crunchy-strips-spicy-1kg.png',
+    'media_1786696651276.png': 'halwani-crunchy-strips-400g.png',
+    'media_1786696662405.png': 'halwani-beef-burger-8pcs.png',
+    'media_1786696669043.png': 'halwani-beef-burger-16pcs-1kg.png',
+    'media_1786696672427.png': 'halwani-oriental-sausage-700g.png',
+    'media_1786696678385.png': 'halwani-cocktail-sausage-350g.png',
+    'media_1786696683073.png': 'chiquita-beef-burger-1kg.png',
+    'media_1786696729006.png': 'chiquita-beef-hotdog-25pcs.png',
+    'media_1786696756384.png': 'dayem-oriental-sausage-700g.png',
+    'media_1786696770515.png': 'eltawabel-beef-burger-30pcs.png',
+    
+    # Frozen vegetables
+    'media_1786696776796.png': 'basma-frozen-molokhia-400g.png',
+    'media_1786696795048.png': 'basma-mixed-vegetables-400g.png',
+    'media_1786696801699.png': 'basma-okra-zero-400g.png',
+    'media_1786696809844.png': 'basma-peas-400g.png',
+    'media_1786696818542.png': 'basma-spinach-cut-400g.png',
+    'media_1786696830586.png': 'givrex-frozen-molokhia-400g.png',
+    
+    # Groceries (Oils, Ghee, Tuna, Foul, Pasta, Condiments)
+    'media_1786696872428.png': 'rawaby-ghee-qishta-700g.png',
+    'media_1786696876316.png': 'crystal-ghee-butter-700g.png',
+    'media_1786696886636.png': 'crystal-corn-oil-800ml.png',
+    'media_1786696896530.png': 'harvest-foul-medames-3pack.png',
+    'media_1786696902967.png': 'dolphin-shredded-tuna-can.png',
+    'media_1786696936477.png': 'knorr-vegetar-normal.png',
+    'media_1786696945691.png': 'knorr-tomato-puree-pouch.png',
+    'media_1786696948699.png': 'knorr-veg-stock-12cubes.png',
+    'media_1786696955687.png': 'knorr-syrian-shawerma-mix.png',
+    'media_1786696959502.png': 'knorr-bechamel-mix.png',
+    'media_1786696962991.png': 'regina-lisan-asfour-400g.png',
+    'media_1786696968648.png': 'elmaleka-vermicelli-400g.png',
+    'media_1786696971674.png': 'elmaleka-small-rings-1kg.png',
+    'media_1786696981244.png': 'heinz-mayo-pouch.png',
+    'media_1786696991647.png': 'vitrac-strawberry-jam-430g.png',
+    'media_1786696995538.png': 'imtenan-spring-honey-1100g.png',
+    'media_1786696999450.png': 'elbawadi-halawa-500g.png',
+    'media_1786697002391.png': 'dreem-orange-vanilla.png',
+    'media_1786697011383.png': 'dreem-cake-chef-24pack.png',
+    'media_1786697016890.png': 'sweetal-sweetener-tub.png',
+    'media_1786697022947.png': 'sweetal-stevia-100sticks.png',
+    
+    # Gums, Biscuits, Chips
+    'media_1786697027767.png': 'clorets-mint-gum.png',
+    'media_1786697033614.png': 'clorets-cinnamint-gum.png',
+    'media_1786697038948.png': 'chiclets-strawberry-gum-10pcs.png',
+    'media_1786697042384.png': 'tuc-salted-crackers-pack.png',
+    'media_1786697046484.png': 'chipsy-cheese-10le.png',
+    'media_1786697052424.png': 'lion-chips-salt-red-7le.png',
+    'media_1786697055375.png': 'galaxy-flutes-chocolate.png',
+    'media_1786697062981.png': 'cocoa-lovers-sandwich-biscuit.png',
+    
+    # More Sweetal, Gannah Ghee, Mustard, Knorr, Dreem Dark Choc, Regina Penne
+    'media_1786697067602.png': 'sweetal-stevia-tub.png',
+    'media_1786697070512.png': 'sweetal-stevia-50sachets.png',
+    'media_1786697074940.png': 'sweetal-50tablets.png',
+    'media_1786697079515.png': 'elmaleka-elbow-pasta-1kg.png',
+    'media_1786697092466.png': 'knorr-hot-vegetar.png',
+    'media_1786697098785.png': 'gannah-ghee-butter-2.5kg.png',
+    'media_1786697102578.png': 'heinz-mustard-bottle.png',
+    'media_1786697166813.png': 'knorr-11-spice-mix.png',
+    'media_1786697251918.png': 'dreem-dark-cooking-chocolate-200g.png',
+    'media_1786697267743.png': 'regina-penne-pasta-400g.png',
+    'media_1786697281468.png': 'trident-watermelon-gum-7pcs.png',
+    'media_1786697284927.png': 'molto-xxl-chocolate-hazelnut.png',
+    'media_1786697286467.png': 'chiclets-green-mint-gum-10pcs.png',
+    'media_1786697302821.png': 'trident-spearmint-gum-7pcs.png',
+    'media_1786697343224.png': 'trident-watermelon-sugarfree.png',
+    'media_1786697349980.png': 'imtenan-clover-honey-1kg.png',
+    'media_1786697355672.png': 'dreem-creme-caramel-2pack.png',
+    
+    # Maggi, Dreem Baking, Jelly, Chantilly, Heinz Mayo Jar, Harvest Foul, Knorr Potato, Cook's Vanilla, Dolphin Tuna, El Maleka Penne
+    'media_1786697398640.png': 'maggi-chicken-stock-12cubes.png',
+    'media_1786697402937.png': 'dreem-baking-powder-sachet.png',
+    'media_1786697407749.png': 'dreem-strawberry-jelly-3pack.png',
+    'media_1786697419515.png': 'dreem-chantilly-cream-powder.png',
+    'media_1786697470766.png': 'heinz-mayo-jar-classic.png',
+    'media_1786697475821.png': 'harvest-foul-medames-plain-can.png',
+    'media_1786697479707.png': 'knorr-potato-seasoning-fareast.png',
+    'media_1786697489662.png': 'cooks-vanillin-with-sugar.png',
+    'media_1786697493633.png': 'dolphin-solid-tuna-200g.png',
+    'media_1786697502601.png': 'elmaleka-penne-pasta-400g.png',
+    'media_1786697514977.png': 'fern-pure-butter-ghee-tin.png',
+    'media_1786697540832.png': 'cooks-baking-powder-sachet.png',
+    'media_1786697544636.png': 'number1-tomato-paste-jar-320g.png',
+    'media_1786697549319.png': 'elrashidi-mizan-halawa-plain.png',
+    'media_1786697560989.png': 'rehana-cane-vinegar-bottle.png',
+    'media_1786697567699.png': 'elmaleka-vermicelli-1kg.png',
+    'media_1786697572577.png': 'eldoha-fine-white-sugar-1kg.png',
+    
+    # Teas (El Arosa, ISIS, Lipton)
+    'media_1786697575974.png': 'elarosa-tea-40g.png',
+    'media_1786697582391.png': 'isis-anise-tea-20bags.png',
+    'media_1786697587433.png': 'isis-hibiscus-tea-100bags.png',
+    'media_1786697598901.png': 'isis-peppermint-tea-12bags.png',
+    'media_1786697611323.png': 'lipton-yellow-label-tea-250g.png',
+    'media_1786697616806.png': 'elarosa-tea-250g.png',
+    'media_1786697620643.png': 'lipton-tea-kharaz-250g.png',
+    'media_1786697641298.png': 'lipton-tea-bags-100bags.png',
+    
+    # Coffee, Nescafe, Bonjorno, Coffee Break, Abu Auf
+    'media_1786697836312.png': 'nescafe-latte-iced-can-250ml.png',
+    'media_1786697850470.png': 'bonjorno-cappuccino-vanilla-stick.png',
+    'media_1786697854899.png': 'bonjorno-coffee-mix-fel-khamseena-sachet.png',
+    'uploaded_media_1786697861982.png': 'bonjorno-cappuccino-hazelnut-stick.png',
+    'media_1786697867950.png': 'bonjorno-cappuccino-double-shot-stick.png',
+    'media_1786697878433.png': 'nescafe-spanish-latte-iced-can-250ml.png',
+    'media_1786697883393.png': 'bonjorno-cappuccino-double-shot-12sachets.png',
+    'media_1786697893949.png': 'coffee-break-cappuccino-mocha-8sticks.png',
+    'media_1786697908601.png': 'coffee-break-cappuccino-hazelnut-8sticks.png',
+    'media_1786697918551.png': 'bonjorno-coffee-mix-fel-khamseena-12sachets.png',
+    'media_1786697936395.png': 'bonjorno-cappuccino-hazelnut-12sachets.png',
+    'media_1786697940450.png': 'nescafe-3in1-chocolate-stick.png',
+    'media_1786697944891.png': 'nescafe-cappuccino-stick.png',
+    'media_1786697949471.png': 'nescafe-vanilla-latte-stick.png',
+    'media_1786697956585.png': 'bonjorno-mezago-mix-4in1-sachet.png',
+    'media_1786697960343.png': 'bonjorno-coffee-mix-12pack-offer.png',
+    'media_1786697972490.png': 'nescafe-2in1-sugar-free-stick.png',
+    'media_1786697977792.png': 'nescafe-3in1-rich-stick.png',
+    'media_1786697983295.png': 'nescafe-gold-3in1-12sachets.png',
+    'media_1786697990337.png': 'nescafe-3in1-caramel-24sachets.png',
+    'media_1786697996694.png': 'nescafe-3in1-chocolate-24sachets.png',
+    'media_1786698000693.png': 'nescafe-classic-glass-jar-190g.png',
+    'media_1786698011686.png': 'nescafe-gold-glass-jar-200g.png',
+    'media_1786698034091.png': 'nescafe-classic-pouch-18g.png',
+    'media_1786698036547.png': 'abu-auf-turkish-coffee-plain-light-200g.png',
+    'media_1786698040862.png': 'nescafe-3in1-original-stick.png'
+}
+
+# Copy mapped files
+for src_f, dest_f in image_copy_map.items():
+    s_path = os.path.join(src_dir, src_f)
+    d_path = os.path.join(dest_dir, dest_f)
+    if os.path.exists(s_path):
+        shutil.copyfile(s_path, d_path)
+
+print(f"Copied current batch images. Total in images directory: {len(os.listdir(dest_dir))}")
