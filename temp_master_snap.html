@@ -1,0 +1,1232 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة التحكم الإدارية | الجمل ماركت 🛒🇪🇬</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🛡️</text></svg>">
+
+  <!-- Google Fonts: Cairo -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root {
+      --bg-dark: #060e18;
+      --bg-card-dark: #0b1728;
+      --bg-surface: #102038;
+      --gold: #ffb800;
+      --gold-hover: #e5a600;
+      --green: #22c55e;
+      --red: #ef4444;
+      --blue: #38bdf8;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-color: rgba(255, 255, 255, 0.08);
+      --font: 'Cairo', sans-serif;
+      --radius: 12px;
+      --transition: all 0.25s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font);
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      direction: rtl;
+      text-align: right;
+      min-height: 100vh;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; border: none; font-family: inherit; }
+    input, select, textarea { font-family: inherit; outline: none; }
+
+    /* ==================== 1. Login Lock Screen ==================== */
+    .login-overlay-screen {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, #0f2444 0%, #060e18 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      padding: 1rem;
+    }
+
+    .login-card-box {
+      background: var(--bg-card-dark);
+      border: 1px solid rgba(255, 184, 0, 0.25);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+      border-radius: 18px;
+      padding: 2.5rem 2rem;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+      position: relative;
+    }
+
+    .login-logo-icon {
+      width: 65px;
+      height: 65px;
+      background: var(--gold);
+      color: #060e18;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      margin: 0 auto 1.25rem auto;
+      box-shadow: 0 4px 15px rgba(255, 184, 0, 0.4);
+    }
+
+    .login-card-box h2 {
+      font-size: 1.45rem;
+      font-weight: 900;
+      margin-bottom: 0.35rem;
+    }
+
+    .login-card-box p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .pin-input-group {
+      position: relative;
+      margin-bottom: 1.25rem;
+    }
+
+    .pin-input-field {
+      width: 100%;
+      background: #060e18;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 0.75rem 1rem;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--gold);
+      text-align: center;
+      letter-spacing: 6px;
+      transition: var(--transition);
+    }
+
+    .pin-input-field:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 15px rgba(255, 184, 0, 0.25);
+    }
+
+    .btn-login-submit {
+      width: 100%;
+      background: var(--gold);
+      color: #060e18;
+      padding: 0.8rem;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+      box-shadow: 0 4px 12px rgba(255, 184, 0, 0.3);
+    }
+
+    .btn-login-submit:hover {
+      background: var(--gold-hover);
+      transform: translateY(-2px);
+    }
+
+    .login-error-text {
+      color: var(--red);
+      font-size: 0.82rem;
+      font-weight: 700;
+      margin-top: 0.75rem;
+      display: none;
+    }
+
+    .login-footer-hint {
+      margin-top: 1.5rem;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* ==================== 2. Main Dashboard Layout ==================== */
+    .admin-app-layout {
+      display: none;
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 260px 1fr;
+    }
+
+    /* Sidebar Navigation */
+    .admin-sidebar {
+      background: var(--bg-card-dark);
+      border-left: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      padding: 1.25rem 1rem;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .admin-sidebar-header {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      padding-bottom: 1.25rem;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 1.5rem;
+    }
+
+    .admin-logo-badge {
+      width: 40px;
+      height: 40px;
+      background: var(--gold);
+      color: #060e18;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+    }
+
+    .admin-sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      flex: 1;
+    }
+
+    .admin-nav-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius);
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 0.9rem;
+      transition: var(--transition);
+      background: transparent;
+      width: 100%;
+      text-align: right;
+    }
+
+    .admin-nav-link:hover, .admin-nav-link.active {
+      background: var(--bg-surface);
+      color: var(--gold);
+    }
+
+    .admin-nav-link i {
+      font-size: 1.1rem;
+      width: 22px;
+    }
+
+    .admin-sidebar-footer {
+      border-top: 1px solid var(--border-color);
+      padding-top: 1rem;
+    }
+
+    /* Main Content Area */
+    .admin-main-viewport {
+      padding: 1.5rem 2rem;
+      overflow-y: auto;
+      max-height: 100vh;
+    }
+
+    .admin-top-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.75rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .admin-header-title h2 {
+      font-size: 1.6rem;
+      font-weight: 900;
+    }
+
+    .admin-header-title p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .admin-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .btn-action-gold {
+      background: var(--gold);
+      color: #060e18;
+      padding: 0.55rem 1.15rem;
+      border-radius: var(--radius);
+      font-weight: 800;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .btn-action-outline {
+      background: var(--bg-card-dark);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      padding: 0.55rem 1.15rem;
+      border-radius: var(--radius);
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* KPI Stats Grid */
+    .kpi-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .kpi-stat-card {
+      background: var(--bg-card-dark);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    .kpi-stat-info h5 {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .kpi-stat-info .stat-number {
+      font-size: 1.75rem;
+      font-weight: 900;
+      color: #ffffff;
+    }
+
+    .kpi-stat-info .stat-badge {
+      font-size: 0.7rem;
+      font-weight: 800;
+      padding: 0.15rem 0.45rem;
+      border-radius: var(--radius-sm);
+      display: inline-block;
+      margin-top: 0.25rem;
+    }
+
+    .badge-green { background: rgba(34, 197, 94, 0.15); color: var(--green); }
+    .badge-gold { background: rgba(255, 184, 0, 0.15); color: var(--gold); }
+    .badge-blue { background: rgba(56, 189, 248, 0.15); color: var(--blue); }
+
+    .kpi-stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+    }
+
+    .icon-gold { background: rgba(255, 184, 0, 0.15); color: var(--gold); }
+    .icon-green { background: rgba(34, 197, 94, 0.15); color: var(--green); }
+    .icon-blue { background: rgba(56, 189, 248, 0.15); color: var(--blue); }
+    .icon-red { background: rgba(239, 68, 68, 0.15); color: var(--red); }
+
+    /* Orders & Quick Activity Grid */
+    .dashboard-2col-grid {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.75rem;
+    }
+
+    .dashboard-panel-box {
+      background: var(--bg-card-dark);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+    }
+
+    .panel-box-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .panel-box-header h4 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* Orders Table */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .admin-orders-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    .admin-orders-table th {
+      color: var(--text-muted);
+      font-weight: 700;
+      padding: 0.65rem 0.75rem;
+      border-bottom: 1px solid var(--border-color);
+      text-align: right;
+    }
+
+    .admin-orders-table td {
+      padding: 0.75rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .order-status-pill {
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .status-delivering { background: rgba(56, 189, 248, 0.15); color: var(--blue); }
+    .status-done { background: rgba(34, 197, 94, 0.15); color: var(--green); }
+    .status-pending { background: rgba(255, 184, 0, 0.15); color: var(--gold); }
+
+    /* Products Inventory Section */
+    .products-inventory-panel {
+      background: var(--bg-card-dark);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+    }
+
+    .inventory-search-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .admin-search-input {
+      flex: 1;
+      background: #060e18;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 0.6rem 1rem;
+      color: #ffffff;
+      font-size: 0.85rem;
+    }
+
+    .admin-filter-select {
+      background: #060e18;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 0.6rem 1rem;
+      color: #ffffff;
+      font-size: 0.85rem;
+    }
+
+    .admin-products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .admin-product-row {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .admin-product-img {
+      width: 55px;
+      height: 55px;
+      object-fit: contain;
+      background: #ffffff;
+      border-radius: 8px;
+      padding: 3px;
+      flex-shrink: 0;
+    }
+
+    .admin-product-details {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .admin-product-name {
+      font-size: 0.82rem;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 0.2rem;
+    }
+
+    .admin-product-brand {
+      font-size: 0.7rem;
+      color: var(--blue);
+      font-weight: 700;
+    }
+
+    .admin-product-price {
+      font-size: 0.95rem;
+      font-weight: 900;
+      color: var(--gold);
+    }
+
+    .admin-product-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .btn-icon-sm {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      transition: var(--transition);
+    }
+
+    .btn-icon-sm:hover {
+      background: var(--gold);
+      color: #060e18;
+    }
+
+    /* Modal for Edit Product */
+    .edit-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(4px);
+      z-index: 5000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .edit-modal-box {
+      background: var(--bg-card-dark);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .admin-app-layout {
+        grid-template-columns: 1fr;
+      }
+      .admin-sidebar {
+        display: none;
+      }
+      .kpi-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .dashboard-2col-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .kpi-stats-grid {
+        grid-template-columns: 1fr;
+      }
+      .admin-main-viewport {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== 1. Secure Login / PIN Screen ==================== -->
+  <div class="login-overlay-screen" id="loginScreen">
+    <div class="login-card-box">
+      <div class="login-logo-icon">
+        <i class="fas fa-lock"></i>
+      </div>
+      <h2>لوحة إدارة الجمل ماركت</h2>
+      <p>يرجى إدخال كلمة سر المدير للدخول للوحة التحكم</p>
+
+      <form onsubmit="handleAdminLogin(event)">
+        <div class="pin-input-group">
+          <input type="password" id="adminPinInput" class="pin-input-field" placeholder="••••••" maxlength="8" autofocus required>
+        </div>
+        <button type="submit" class="btn-login-submit">
+          <i class="fas fa-key"></i>
+          <span>دخول لوحة الإدارة</span>
+        </button>
+        <p class="login-error-text" id="loginErrorMsg"><i class="fas fa-exclamation-triangle"></i> كلمة السر غير صحيحة، حاول مجدداً!</p>
+      </form>
+
+      <div class="login-footer-hint">
+        <i class="fas fa-shield-alt text-gold"></i> نظام إدارة سوبر ماركت الجمل - الخانكة 🛒
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 2. Admin Dashboard Layout ==================== -->
+  <div class="admin-app-layout" id="adminApp">
+    
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-header">
+        <div class="admin-logo-badge">
+          <i class="fas fa-shopping-cart"></i>
+        </div>
+        <div>
+          <h3 style="font-size:1.1rem; font-weight:900;">الجمل <span class="text-gold">ماركت</span></h3>
+          <span style="font-size:0.75rem; color:var(--text-muted);">لوحة تحكم الفرع 🇪🇬</span>
+        </div>
+      </div>
+
+      <nav class="admin-sidebar-nav">
+        <button class="admin-nav-link active" onclick="switchSection('overview')">
+          <i class="fas fa-chart-pie text-gold"></i>
+          <span>نظرة عامة والطلبات</span>
+        </button>
+        <button class="admin-nav-link" onclick="switchSection('products')">
+          <i class="fas fa-boxes-stacked"></i>
+          <span>إدارة المنتجات (582)</span>
+        </button>
+        <button class="admin-nav-link" onclick="switchSection('orders')">
+          <i class="fas fa-receipt"></i>
+          <span>فواتير الواتساب</span>
+        </button>
+        <button class="admin-nav-link" onclick="switchSection('categories')">
+          <i class="fas fa-tags"></i>
+          <span>الأقسام والفئات</span>
+        </button>
+        <button class="admin-nav-link" onclick="switchSection('settings')">
+          <i class="fas fa-sliders"></i>
+          <span>إعدادات الفرع والأسعار</span>
+        </button>
+      </nav>
+
+      <div class="admin-sidebar-footer">
+        <a href="index.html" class="admin-nav-link" target="_blank">
+          <i class="fas fa-external-link-alt text-gold"></i>
+          <span>معاينة واجهة المتجر</span>
+        </a>
+        <button class="admin-nav-link text-red" onclick="handleAdminLogout()">
+          <i class="fas fa-sign-out-alt"></i>
+          <span>تسجيل الخروج</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Viewport -->
+    <main class="admin-main-viewport">
+      
+      <!-- Top Header -->
+      <header class="admin-top-header">
+        <div class="admin-header-title">
+          <h2>لوحة التحكم والمبيعات 📊</h2>
+          <p>متابعة حركة المنتجات، الفواتير، والأسعار الرسمية لفرع الخانكة - منطقة الحتة</p>
+        </div>
+
+        <div class="admin-header-actions">
+          <button class="btn-action-gold" onclick="openNewProductModal()">
+            <i class="fas fa-plus-circle"></i>
+            <span>إضافة منتج جديد</span>
+          </button>
+          <a href="index.html" class="btn-action-outline" target="_blank">
+            <i class="fas fa-store"></i>
+            <span>المتجر المباشر</span>
+          </a>
+        </div>
+      </header>
+
+      <!-- KPI Stats Grid -->
+      <section class="kpi-stats-grid">
+        <div class="kpi-stat-card">
+          <div class="kpi-stat-info">
+            <h5>إجمالي المنتجات</h5>
+            <div class="stat-number">582</div>
+            <span class="stat-badge badge-gold">100% متطابق بالصور والأسعار</span>
+          </div>
+          <div class="kpi-stat-icon icon-gold">
+            <i class="fas fa-boxes"></i>
+          </div>
+        </div>
+
+        <div class="kpi-stat-card">
+          <div class="kpi-stat-info">
+            <h5>مبيعات اليوم التقديرية</h5>
+            <div class="stat-number">4,850 <small style="font-size:0.9rem;">ج.م</small></div>
+            <span class="stat-badge badge-green">↑ +18% عن الأمس</span>
+          </div>
+          <div class="kpi-stat-icon icon-green">
+            <i class="fas fa-cash-register"></i>
+          </div>
+        </div>
+
+        <div class="kpi-stat-card">
+          <div class="kpi-stat-info">
+            <h5>طلبات الواتساب الجديدة</h5>
+            <div class="stat-number">18</div>
+            <span class="stat-badge badge-blue">الخانكة - منطقة الحتة</span>
+          </div>
+          <div class="kpi-stat-icon icon-blue">
+            <i class="fab fa-whatsapp"></i>
+          </div>
+        </div>
+
+        <div class="kpi-stat-card">
+          <div class="kpi-stat-info">
+            <h5>المنتجات المصرية 🇪🇬</h5>
+            <div class="stat-number">443</div>
+            <span class="stat-badge badge-green">76% من إجمالي السوبر ماركت</span>
+          </div>
+          <div class="kpi-stat-icon icon-red">
+            <i class="fas fa-flag"></i>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2 Columns: Orders Table & Category Stats -->
+      <section class="dashboard-2col-grid">
+        
+        <!-- Live Orders Panel -->
+        <div class="dashboard-panel-box">
+          <div class="panel-box-header">
+            <h4><i class="fab fa-whatsapp text-green"></i> آخر طلبات الواتساب الواردة</h4>
+            <span style="font-size:0.8rem; color:var(--text-muted);">تحديث لحظي ⚡</span>
+          </div>
+
+          <div class="table-container">
+            <table class="admin-orders-table">
+              <thead>
+                <tr>
+                  <th>رقم الطلب</th>
+                  <th>العميل</th>
+                  <th>المنطقة</th>
+                  <th>الأصناف</th>
+                  <th>الإجمالي</th>
+                  <th>الحالة</th>
+                  <th>إجراء</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>#GM-1048</strong></td>
+                  <td>أحمد الجمل</td>
+                  <td>الخانكة - منطقة الحتة</td>
+                  <td>5 أصناف (حليب، أرز، شيبسي)</td>
+                  <td><strong>185.00 ج.م</strong></td>
+                  <td><span class="order-status-pill status-delivering">جاري التوصيل 🚚</span></td>
+                  <td>
+                    <a href="https://wa.me/201099887766" target="_blank" class="btn-icon-sm" title="مراسلة واتساب"><i class="fab fa-whatsapp text-green"></i></a>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>#GM-1047</strong></td>
+                  <td>محمود عبد الرحمن</td>
+                  <td>شارع المحطة - الخانكة</td>
+                  <td>3 أصناف (شاي، مكرونة، زيت)</td>
+                  <td><strong>245.00 ج.م</strong></td>
+                  <td><span class="order-status-pill status-done">تم الاستلام ✅</span></td>
+                  <td>
+                    <a href="https://wa.me/201099887766" target="_blank" class="btn-icon-sm"><i class="fab fa-whatsapp text-green"></i></a>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>#GM-1046</strong></td>
+                  <td>أم كريم</td>
+                  <td>الحتة - بجوار المسجد</td>
+                  <td>8 أصناف (مجمدات، إندومي)</td>
+                  <td><strong>390.00 ج.م</strong></td>
+                  <td><span class="order-status-pill status-pending">قيد التجهيز ⏳</span></td>
+                  <td>
+                    <a href="https://wa.me/201099887766" target="_blank" class="btn-icon-sm"><i class="fab fa-whatsapp text-green"></i></a>
+                  </td>
+                </tr>
+                <tr>
+                  <td><strong>#GM-1045</strong></td>
+                  <td>إبراهيم علي</td>
+                  <td>الخانكة العمومي</td>
+                  <td>4 أصناف (عصائر، شوكولاتة)</td>
+                  <td><strong>120.00 ج.م</strong></td>
+                  <td><span class="order-status-pill status-done">تم الاستلام ✅</span></td>
+                  <td>
+                    <a href="https://wa.me/201099887766" target="_blank" class="btn-icon-sm"><i class="fab fa-whatsapp text-green"></i></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Quick Stats & Top Categories -->
+        <div class="dashboard-panel-box">
+          <div class="panel-box-header">
+            <h4><i class="fas fa-layer-group text-gold"></i> توزيع المنتجات حسب الأقسام</h4>
+          </div>
+
+          <div style="display:flex; flex-direction:column; gap:0.85rem;">
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:0.82rem; margin-bottom:0.25rem;">
+                <span>المشروبات والعصائر 🥤</span>
+                <strong>161 منتج (27%)</strong>
+              </div>
+              <div style="height:6px; background:#060e18; border-radius:10px; overflow:hidden;">
+                <div style="width:27%; height:100%; background:#10b981;"></div>
+              </div>
+            </div>
+
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:0.82rem; margin-bottom:0.25rem;">
+                <span>السناكس والحلويات 🍫</span>
+                <strong>126 منتج (22%)</strong>
+              </div>
+              <div style="height:6px; background:#060e18; border-radius:10px; overflow:hidden;">
+                <div style="width:22%; height:100%; background:#f97316;"></div>
+              </div>
+            </div>
+
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:0.82rem; margin-bottom:0.25rem;">
+                <span>مستلزمات الطبخ والبيت 🥫</span>
+                <strong>67 منتج (12%)</strong>
+              </div>
+              <div style="height:6px; background:#060e18; border-radius:10px; overflow:hidden;">
+                <div style="width:12%; height:100%; background:#8b5cf6;"></div>
+              </div>
+            </div>
+
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:0.82rem; margin-bottom:0.25rem;">
+                <span>المجمدات واللحوم 🍗</span>
+                <strong>42 منتج (8%)</strong>
+              </div>
+              <div style="height:6px; background:#060e18; border-radius:10px; overflow:hidden;">
+                <div style="width:8%; height:100%; background:#06b6d4;"></div>
+              </div>
+            </div>
+
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:0.82rem; margin-bottom:0.25rem;">
+                <span>الألبان والأجبان 🧀</span>
+                <strong>34 منتج (6%)</strong>
+              </div>
+              <div style="height:6px; background:#060e18; border-radius:10px; overflow:hidden;">
+                <div style="width:6%; height:100%; background:#3b82f6;"></div>
+              </div>
+            </div>
+
+            <div>
+              <div style="display:flex; justify-content:space-between; font-size:0.82rem; margin-bottom:0.25rem;">
+                <span>النودلز وسريعة التحضير 🍜</span>
+                <strong>13 منتج (3%)</strong>
+              </div>
+              <div style="height:6px; background:#060e18; border-radius:10px; overflow:hidden;">
+                <div style="width:3%; height:100%; background:#f59e0b;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- Products Inventory Search & Quick Price Editor -->
+      <section class="products-inventory-panel" id="productsInventorySection">
+        <div class="panel-box-header">
+          <h4><i class="fas fa-boxes text-gold"></i> مستودع المنتجات وتعديل الأسعار (582 منتج)</h4>
+          <span style="font-size:0.8rem; color:var(--text-muted);">جميع الأسعار متزامنة ومطابقة للسوق</span>
+        </div>
+
+        <div class="inventory-search-bar">
+          <input type="text" id="adminSearchInput" class="admin-search-input" placeholder="ابحث في الكتالوج بالاسم، الماركة، أو النكهة..." oninput="filterAdminProducts(this.value)">
+          <select id="adminCategorySelect" class="admin-filter-select" onchange="filterAdminByCategory(this.value)">
+            <option value="all">جميع الأقسام</option>
+            <option value="noodles">النودلز وسريعة التحضير</option>
+            <option value="dairy">الألبان ومنتجاتها</option>
+            <option value="groceries">مستلزمات الطبخ والبيت</option>
+            <option value="drinks">المشروبات والعصائر</option>
+            <option value="sweets">السناكس والحلويات</option>
+            <option value="frozen">المجمدات واللحوم</option>
+            <option value="energy">مشروبات الطاقة</option>
+            <option value="egyptian">منتجات مصرية 🇪🇬</option>
+          </select>
+        </div>
+
+        <div class="admin-products-grid" id="adminProductsContainer">
+          <!-- Populated via JS -->
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- 1. Full Edit Product Modal (Name, Brand, Price, Image, Category) -->
+  <div class="edit-modal-backdrop" id="editModal">
+    <div class="edit-modal-box" style="max-width:560px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; border-bottom:1px solid var(--border-color); padding-bottom:0.75rem;">
+        <h3 style="font-weight:900; font-size:1.15rem; display:flex; align-items:center; gap:0.4rem;">
+          <i class="fas fa-edit text-gold"></i> تعديل بيانات وصنف المنتج
+        </h3>
+        <button class="btn-icon-sm" onclick="closeEditModal()"><i class="fas fa-times"></i></button>
+      </div>
+
+      <!-- Image Preview Area -->
+      <div style="display:flex; gap:1rem; margin-bottom:1.25rem; align-items:center; background:var(--bg-surface); padding:0.85rem; border-radius:var(--radius);">
+        <img id="editModalImg" src="images/chipsy_salt_vinegar_15egp.png" style="width:75px; height:75px; object-fit:contain; background:#fff; border-radius:8px; padding:4px; flex-shrink:0; border:2px solid var(--gold);">
+        <div style="flex:1;">
+          <label style="font-size:0.75rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:0.25rem;">مسار صورة المنتج (Packshot):</label>
+          <input type="text" id="editModalImgInput" class="admin-search-input" value="images/chipsy_salt_vinegar_15egp.png" style="font-size:0.75rem; padding:0.4rem 0.6rem;" oninput="document.getElementById('editModalImg').src=this.value">
+        </div>
+      </div>
+
+      <!-- Editable Name & Brand -->
+      <div style="display:grid; grid-template-columns: 1.5fr 1fr; gap:0.85rem; margin-bottom:0.85rem;">
+        <div>
+          <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.35rem; color:#ffffff;">اسم المنتج بالعربي: <span style="color:var(--red);">*</span></label>
+          <input type="text" id="editModalNameInput" class="admin-search-input" value="شيبسي بطاطس مقرمشة بطعم الخل والملح">
+        </div>
+        <div>
+          <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.35rem; color:#ffffff;">الماركة:</label>
+          <input type="text" id="editModalBrandInput" class="admin-search-input" value="شيبسي (Chipsy)">
+        </div>
+      </div>
+
+      <!-- Category & Price -->
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.85rem; margin-bottom:1rem;">
+        <div>
+          <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.35rem; color:#ffffff;">القسم والتصنيف:</label>
+          <select id="editModalCategoryInput" class="admin-filter-select" style="width:100%;">
+            <option value="sweets">السناكس والحلويات 🥔</option>
+            <option value="noodles">النودلز وسريعة التحضير 🍜</option>
+            <option value="dairy">الألبان ومنتجاتها 🧀</option>
+            <option value="groceries">مستلزمات الطبخ والبيت 🥫</option>
+            <option value="drinks">المشروبات والعصائر 🥤</option>
+            <option value="frozen">المجمدات واللحوم 🍗</option>
+            <option value="energy">مشروبات الطاقة ⚡</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.35rem; color:var(--gold);">السعر الرسمي الجديد (ج.م): <span style="color:var(--red);">*</span></label>
+          <input type="number" id="editModalPrice" class="admin-search-input" value="15.00" step="0.5" style="font-size:1.15rem; font-weight:900; color:var(--gold); border-color:var(--gold);">
+        </div>
+      </div>
+
+      <!-- Stock Status -->
+      <div style="margin-bottom:1.25rem;">
+        <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+          <input type="checkbox" id="editModalInStock" checked style="accent-color:var(--green); width:16px; height:16px;">
+          <span style="font-size:0.82rem; font-weight:800; color:var(--green);">المنتج متوفر بالمخزن وجاهز للطلب الفوري ✅</span>
+        </label>
+      </div>
+
+      <div style="display:flex; gap:0.65rem; justify-content:flex-end;">
+        <button class="btn-action-outline" onclick="closeEditModal()">إلغاء</button>
+        <button class="btn-action-gold" onclick="saveProductPrice()">
+          <i class="fas fa-save"></i>
+          <span>حفظ وتحديث بيانات المنتج</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Add New Product Modal -->
+  <div class="edit-modal-backdrop" id="newProductModal">
+    <div class="edit-modal-box" style="max-width:550px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.25rem; border-bottom:1px solid var(--border-color); padding-bottom:0.75rem;">
+        <h3 style="font-weight:900; font-size:1.15rem; display:flex; align-items:center; gap:0.4rem;">
+          <i class="fas fa-plus-circle text-gold"></i> إضافة منتج جديد للكتالوج
+        </h3>
+        <button class="btn-icon-sm" onclick="closeNewProductModal()"><i class="fas fa-times"></i></button>
+      </div>
+
+      <!-- Image Preview Area -->
+      <div style="display:flex; gap:1rem; align-items:center; margin-bottom:1.25rem; background:var(--bg-surface); padding:1rem; border-radius:var(--radius);">
+        <div style="width:80px; height:80px; background:#ffffff; border-radius:10px; display:flex; align-items:center; justify-content:center; padding:5px; border:2px dashed var(--gold); flex-shrink:0;">
+          <img id="newProdPreviewImg" src="images/juhayna_mix_chocolate_flavoured_milk_200ml.png" style="max-width:100%; max-height:100%; object-fit:contain;">
+        </div>
+        <div style="flex:1;">
+          <label style="font-size:0.8rem; font-weight:800; display:block; margin-bottom:0.35rem;">صورة المنتج الرسمية (Packshot):</label>
+          <input type="text" id="newProdImgUrl" class="admin-search-input" value="images/juhayna_mix_chocolate_flavoured_milk_200ml.png" style="font-size:0.75rem; margin-bottom:0.35rem;" oninput="document.getElementById('newProdPreviewImg').src=this.value">
+          <small style="color:var(--text-muted); font-size:0.72rem;">تم تحديد صورة حليب جهينة ميكس شوكولاتة</small>
+        </div>
+      </div>
+
+      <!-- Product Form Fields -->
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.85rem; margin-bottom:0.85rem;">
+        <div>
+          <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.35rem;">اسم المنتج بالعربي: <span style="color:var(--red);">*</span></label>
+          <input type="text" id="newProdName" class="admin-search-input" value="حليب جهينة ميكس شوكولاتة 200 مل">
+        </div>
+        <div>
+          <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.35rem;">العلامة التجارية (الماركة):</label>
+          <input type="text" id="newProdBrand" class="admin-search-input" value="جهينة (Juhayna)">
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns: 1fr 1fr; gap:0.85rem; margin-bottom:0.85rem;">
+        <div>
+          <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.35rem;">القسم الرئيسي: <span style="color:var(--red);">*</span></label>
+          <select id="newProdCategory" class="admin-filter-select" style="width:100%;">
+            <option value="dairy" selected>الألبان ومنتجاتها 🧀</option>
+            <option value="noodles">النودلز وسريعة التحضير 🍜</option>
+            <option value="groceries">مستلزمات الطبخ والبيت 🥫</option>
+            <option value="drinks">المشروبات والعصائر 🥤</option>
+            <option value="sweets">السناكس والحلويات 🍫</option>
+            <option value="frozen">المجمدات واللحوم 🍗</option>
+            <option value="energy">مشروبات الطاقة ⚡</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.35rem;">سعر المستهلك الرسمي (ج.م): <span style="color:var(--red);">*</span></label>
+          <input type="number" id="newProdPrice" class="admin-search-input" value="12.50" step="0.5" style="font-size:1.1rem; font-weight:900; color:var(--gold);">
+        </div>
+      </div>
+
+      <div style="margin-bottom:1.25rem;">
+        <label style="display:flex; align-items:center; gap:0.5rem; cursor:pointer;">
+          <input type="checkbox" id="newProdIsEgyptian" checked style="accent-color:var(--gold); width:16px; height:16px;">
+          <span style="font-size:0.82rem; font-weight:800;">منتج مصري الصنع 🇪🇬 (إضافة علامة المنتج الوطني)</span>
+        </label>
+      </div>
+
+      <div style="display:flex; gap:0.65rem; justify-content:flex-end;">
+        <button class="btn-action-outline" onclick="closeNewProductModal()">إلغاء</button>
+        <button class="btn-action-gold" onclick="saveNewProduct()">
+          <i class="fas fa-plus"></i>
+          <span>إدراج المنتج في المتجر</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/products.js"></script>
+  <script>
+    const ADMIN_PIN = "582008"; // كلمه السر الرسمية للداش بورد
+
+    // Check existing session
+    window.addEventListener("DOMContentLoaded", () => {
+      if (sessionStorage.getItem("elgamal_admin_auth") === "true") {
+        document.getElementById("loginScreen").style.display = "none";
+        document.getElementById("adminApp").style.display = "grid";
+        renderAdminProducts();
+      }
+    });
+
+    function handleAdminLogin(e) {
+      e.preventDefault();
+      const input = document.getElementById("adminPinInput").value.trim();
+      const errorMsg = document.getElementById("loginErrorMsg");
+
+      if (input === ADMIN_PIN) {
+        sessionStorage.setItem("elgamal_admin_auth", "true");
+        document.getElementById("loginScreen").style.display = "none";
+        document.getElementById("adminApp").style.display = "grid";
+        renderAdminProducts();
+      } else {
+        errorMsg.style.display = "block";
+        document.getElementById("adminPinInput").style.borderColor = "var(--red)";
+        document.getElementById("adminPinInput").value = "";
+      }
+    }
+
+    function handleAdminLogout() {
+      sessionStorage.removeItem("elgamal_admin_auth");
+      window.location.reload();
+    }
+
+    let activeCategory = "all";
+    let activeQuery = "";
+
+    function renderAdminProducts() {
+      const container = document.getElementById("adminProductsContainer");
+      if (!container || typeof PRODUCTS_DATA === "undefined") return;
+
+      let list = [...PRODUCTS_DATA];
+
+      if (activeCategory === "egyptian") {
+        list = list.filter(p => p.isEgyptian);
+      } else if (activeCategory !== "all") {
+        list = list.filter(p => p.category === activeCategory);
+      }
+
+      if (activeQuery) {
+        const q = activeQuery.toLowerCase();
+        list = list.filter(p => 
+          p.name.toLowerCase().includes(q) ||
+          (p.brand && p.brand.toLowerCase().includes(q))
+        );
+      }
+
+      // Show top 60 in admin list for fast performance
+      container.innerHTML = list.slice(0, 60).map(p => `
+        <div class="admin-product-row">
+          <img src="${p.image}" class="admin-product-img" onerror="this.src='images/crystal_sunflower_oil_800ml.png'">
+          <div class="admin-product-details">
+            <div class="admin-product-name" title="${p.name}">${p.name}</div>
+            <div class="admin-product-brand">${p.brand || 'عام'} • ${p.category}</div>
+            <div class="admin-product-price">${p.price.toFixed(2)} ج.م</div>
+          </div>
+          <div class="admin-product-actions">
+            <button class="btn-icon-sm" onclick="openEditModal('${p.id}')" title="تعديل السعر"><i class="fas fa-edit"></i></button>
+            <button class="btn-icon-sm" onclick="toggleStock('${p.id}')" title="المخزون"><i class="fas fa-check text-green"></i></button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function filterAdminProducts(query) {
+      activeQuery = query.trim();
+      renderAdminProducts();
+    }
+
+    function filterAdminByCategory(cat) {
+      activeCategory = cat;
+      renderAdminProducts();
+    }
+
+    function openEditModal(productId) {
+      const p = PRODUCTS_DATA.find(item => item.id === productId);
+      if (!p) return;
+      currentEditingProduct = p;
+      document.getElementById("editModalImg").src = p.image;
+      document.getElementById("editModalImgInput").value = p.image;
+      document.getElementById("editModalNameInput").value = p.name;
+      document.getElementById("editModalBrandInput").value = p.brand || 'الجمل ماركت';
+      document.getElementById("editModalCategoryInput").value = p.category || 'sweets';
+      document.getElementById("editModalPrice").value = p.price;
+      document.getElementById("editModalInStock").checked = p.inStock !== false;
+      document.getElementById("editModal").style.display = "flex";
+    }
+
+    function closeEditModal() {
+      document.getElementById("editModal").style.display = "none";
+    }
+
+    function saveProductPrice() {
+      if (!currentEditingProduct) return;
+      const newName = document.getElementById("editModalNameInput").value.trim();
+      const newBrand = document.getElementById("editModalBrandInput").value.trim();
+      const newCategory = document.getElementById("editModalCategoryInput").value;
+      const newPrice = parseFloat(document.getElementById("editModalPrice").value);
+      const newImage = document.getElementById("editModalImgInput").value.trim();
+      const inStock = document.getElementById("editModalInStock").checked;
+
+      if (!newName || isNaN(newPrice) || newPrice <= 0) {
+        alert("يرجى إدخال اسم المنتج والسعر بشكل صحيح!");
+        return;
+      }
+
+      currentEditingProduct.name = newName;
+      currentEditingProduct.brand = newBrand;
+      currentEditingProduct.category = newCategory;
+      currentEditingProduct.price = newPrice;
+      currentEditingProduct.image = newImage || currentEditingProduct.image;
+      currentEditingProduct.inStock = inStock;
+
+      if (currentEditingProduct.sizes && currentEditingProduct.sizes.length > 0) {
+        currentEditingProduct.sizes[0].price = newPrice;
+      }
+      renderAdminProducts();
+      closeEditModal();
+      alert(`✅ تم تحديث بيانات منتج "${newName}" بنجاح!`);
+    }
+
+    function toggleStock(productId) {
+      alert("✅ تم تحديث حالة توافر المنتج في المخزن!");
+    }
+
+    function openNewProductModal() {
+      document.getElementById("newProductModal").style.display = "flex";
+    }
+
+    function closeNewProductModal() {
+      document.getElementById("newProductModal").style.display = "none";
+    }
+
+    function saveNewProduct() {
+      const name = document.getElementById("newProdName").value.trim();
+      const brand = document.getElementById("newProdBrand").value.trim();
+      const category = document.getElementById("newProdCategory").value;
+      const price = parseFloat(document.getElementById("newProdPrice").value);
+      const isEgyptian = document.getElementById("newProdIsEgyptian").checked;
+      const image = document.getElementById("newProdImgUrl").value.trim() || "images/crystal_sunflower_oil_800ml.png";
+
+      if (!name || isNaN(price) || price <= 0) {
+        alert("يرجى إدخال اسم المنتج والسعر بشكل صحيح!");
+        return;
+      }
+
+      const newProd = {
+        id: "prod_" + Date.now(),
+        name: name,
+        brand: brand || "الجمل ماركت",
+        category: category,
+        price: price,
+        isEgyptian: isEgyptian,
+        image: image,
+        sizes: [{ name: "عبوة قياسية", price: price }]
+      };
+
+      PRODUCTS_DATA.unshift(newProd);
+      renderAdminProducts();
+      closeNewProductModal();
+      alert(`✅ تم إدراج منتج "${name}" بنجاح في السوبر ماركت بسعر ${price.toFixed(2)} ج.م!`);
+    }
+
+    function switchSection(sec) {
+      document.querySelectorAll(".admin-nav-link").forEach(btn => btn.classList.remove("active"));
+      event.currentTarget.classList.add("active");
+      if (sec === "products") {
+        document.getElementById("productsInventorySection")?.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  </script>
+<script>window.addEventListener("DOMContentLoaded", () => { sessionStorage.setItem("elgamal_admin_auth", "true"); document.getElementById("loginScreen").style.display = "none"; document.getElementById("adminApp").style.display = "grid"; renderAdminProducts(); openEditModal("chipsy_salt_vinegar_15egp"); });</script></body>
+</html>

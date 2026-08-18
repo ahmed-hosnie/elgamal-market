@@ -45,6 +45,10 @@ const STATE = {
 
 // ==================== App Initialization ====================
 document.addEventListener("DOMContentLoaded", () => {
+  window.scrollTo(0, 0);
+  document.documentElement.scrollLeft = 0;
+  document.body.scrollLeft = 0;
+  
   renderDepartments();
   renderSidebarCategories();
   renderSidebarBrands();
@@ -608,6 +612,8 @@ function updateCartUI() {
 }
 
 function openCart() {
+  const toastContainer = document.getElementById("toastContainer");
+  if (toastContainer) toastContainer.innerHTML = "";
   document.getElementById("cartDrawer")?.classList.add("active");
   document.getElementById("cartOverlay")?.classList.add("active");
   document.body.style.overflow = "hidden";
@@ -749,6 +755,9 @@ function openCheckoutModal() {
     showToast("عربة التسوق فارغة! أضف منتجات أولاً 🛒");
     return;
   }
+
+  const toastContainer = document.getElementById("toastContainer");
+  if (toastContainer) toastContainer.innerHTML = "";
 
   const modal = document.getElementById("checkoutModal");
   const overlay = document.getElementById("checkoutOverlay");

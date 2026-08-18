@@ -165,12 +165,46 @@
   <!-- ==================== 4. Hero Banner Section ==================== -->
   <section class="hero-showcase-section">
     <div class="container">
-      <div class="hero-unified-banner-wrap">
-        <img src="images/hero_banner_mobile.png" alt="عروض الجمل ماركت - كل احتياجاتك في مكان واحد" class="hero-unified-img">
-        <!-- Interactive Hotspots over the buttons -->
-        <div class="hero-interactive-hotspots">
-          <button class="hero-hotspot-btn hotspot-shop" onclick="scrollToCatalog('all')" title="تسوق الآن"></button>
-          <button class="hero-hotspot-btn hotspot-whatsapp" onclick="openCheckoutModal()" title="اطلب واتساب"></button>
+      <div class="hero-banner-card">
+        <!-- Text & Content -->
+        <div class="hero-text-content">
+          <div class="exclusive-offer-badge">
+            <i class="fas fa-tags"></i>
+            <span>سعر المستهلك الرسمي 🏷️</span>
+          </div>
+          <h2 class="hero-headline">
+            كل احتياجاتك<br>
+            <span class="text-gold">في مكان واحد</span>
+          </h2>
+          <div class="hero-features-list">
+            <div class="hero-feature-chip">
+              <i class="fas fa-medal"></i>
+              <span>جودة عالية</span>
+            </div>
+            <div class="hero-feature-chip">
+              <i class="fas fa-tags"></i>
+              <span>أسعار منافسة</span>
+            </div>
+            <div class="hero-feature-chip">
+              <i class="fas fa-truck-fast"></i>
+              <span>توصيل سريع</span>
+            </div>
+          </div>
+          <div class="hero-cta-wrap">
+            <button class="btn-hero-shop" onclick="scrollToCatalog('all')">
+              <span>تسوق الآن</span>
+              <i class="fas fa-arrow-left"></i>
+            </button>
+            <button class="btn-hero-whatsapp" onclick="openCheckoutModal()">
+              <i class="fab fa-whatsapp"></i>
+              <span>طلب بالواتساب</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Shopping Cart Graphic -->
+        <div class="hero-image-content">
+          <img src="images/hero_cart.png" alt="عربة تسوق الجمل ماركت" class="hero-cart-img" onerror="this.src='images/hero_banner_full.jpg'">
         </div>
       </div>
     </div>
@@ -614,5 +648,28 @@
   <!-- Scripts -->
   <script src="js/products.js"></script>
   <script src="js/app.js"></script>
+
+<script>
+window.addEventListener('load', () => {
+  const data = {
+    innerWidth: window.innerWidth,
+    bodyWidth: document.body.offsetWidth,
+    bodyScrollWidth: document.body.scrollWidth,
+    elements: []
+  };
+  document.querySelectorAll('body *').forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.right > window.innerWidth || rect.left < 0 || rect.width > window.innerWidth) {
+      data.elements.push({
+        tag: el.tagName,
+        cls: el.className,
+        id: el.id,
+        rect: { left: rect.left, right: rect.right, width: rect.width }
+      });
+    }
+  });
+  console.log('LAYOUT_DEBUG:' + JSON.stringify(data));
+});
+</script>
 </body>
 </html>

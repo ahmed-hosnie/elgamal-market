@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>معرض صور الجمل ماركت - El-Gamal Market Gallery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    :root {
+      --bg: #081220;
+      --card-bg: #0f1f38;
+      --gold: #ffb800;
+      --green: #22c55e;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --border: #1e293b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; }
+    body { background: var(--bg); color: var(--text); padding: 2rem 1rem; line-height: 1.6; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .header { text-align: center; margin-bottom: 2rem; border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; }
+    .header h1 { font-size: 2.2rem; font-weight: 900; color: var(--gold); margin-bottom: 0.5rem; }
+    .header p { color: var(--text-muted); font-size: 1.1rem; }
+    
+    .nav-tabs { display: flex; justify-content: center; gap: 0.75rem; margin-bottom: 2rem; flex-wrap: wrap; }
+    .tab-btn { background: var(--card-bg); border: 1px solid var(--border); color: var(--text); padding: 0.65rem 1.25rem; border-radius: 8px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 0.5rem; }
+    .tab-btn.active, .tab-btn:hover { background: var(--gold); color: #081220; border-color: var(--gold); font-weight: 900; }
+    
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 1.5rem; }
+    .gallery-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: transform 0.2s; display: flex; flex-direction: column; }
+    .gallery-card:hover { transform: translateY(-4px); border-color: var(--gold); }
+    .gallery-card img { width: 100%; height: auto; display: block; background: #060e18; }
+    .card-info { padding: 1.25rem; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+    .card-info h3 { font-size: 1.15rem; font-weight: 800; color: var(--gold); margin-bottom: 0.35rem; }
+    .card-info p { color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1rem; }
+    .btn-view { display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; background: rgba(255,184,0,0.15); color: var(--gold); padding: 0.45rem 1rem; border-radius: 6px; font-weight: 700; text-decoration: none; font-size: 0.85rem; border: 1px solid var(--gold); transition: all 0.2s; }
+    .btn-view:hover { background: var(--gold); color: #081220; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <h1>🛒 الجمل ماركت - معرض صور النظام الكامل</h1>
+      <p>فرع: الخانكة - منطقة الحتة - محافظة القليوبية 📍</p>
+    </div>
+
+    <div class="nav-tabs">
+      <button class="tab-btn active" onclick="filterTab('all')"><i class="fas fa-th"></i> جميع الصور (12)</button>
+      <button class="tab-btn" onclick="filterTab('phone')"><i class="fas fa-mobile-alt"></i> شاشات الموبايل (5)</button>
+      <button class="tab-btn" onclick="filterTab('admin')"><i class="fas fa-user-shield"></i> الداش بورد والتعديل (4)</button>
+      <button class="tab-btn" onclick="filterTab('desktop')"><i class="fas fa-desktop"></i> واجهة الكمبيوتر (3)</button>
+    </div>
+
+    <div class="gallery-grid" id="galleryGrid">
+      <!-- 1 -->
+      <div class="gallery-card" data-cat="phone">
+        <img src="gallery/phone_view_1_homepage.png" alt="الصفحة الرئيسية من التليفون">
+        <div class="card-info">
+          <div>
+            <h3>1. الرئيسية من التليفون (Home Screen)</h3>
+            <p>الهيدر، البانر الجديد المتناسق، شريط الأقسام وبطاقات الميزات.</p>
+          </div>
+          <a href="gallery/phone_view_1_homepage.png" target="_blank" class="btn-view"><i class="fas fa-expand"></i> فتح الصورة بالحجم الكامل</a>
+        </div>
+      </div>
+
+      <!-- 2 -->
+      <div class="gallery-card" data-cat="phone">
+        <img src="gallery/phone_view_2_catalog.png" alt="تصفح المنتجات والأحجام">
+        <div class="card-info">
+          <div>
+            <h3>2. شبكة المنتجات والأحجام (Catalog Grid)</h3>
+            <p>عرض المنتجات في عمودين مع قائمة اختيار الحجم (كيس وسط 7 ج.م، كيس عائلي) والكمية.</p>
+          </div>
+          <a href="gallery/phone_view_2_catalog.png" target="_blank" class="btn-view"><i class="fas fa-expand"></i> فتح الصورة بالحجم الكامل</a>
+        </div>
+      </div>
+
+      <!-- 3 -->
+      <div class="gallery-card" data-cat="phone">
+        <img src="gallery/phone_view_3_cart.png" alt="سلة المشتريات من التليفون">
+        <div class="card-info">
+          <div>
+            <h3>3. سلة المشتريات المنزلقة (Cart Drawer)</h3>
+            <p>مؤشر التوصيل المجاني بالخانكة وحساب الإجمالي وزر إتمام الطلب بالواتساب.</p>
+          </div>
+          <a href="gallery/phone_view_3_cart.png" target="_blank" class="btn-view"><i class="fas fa-expand"></i> فتح الصورة بالحجم الكامل</a>
+        </div>
+      </div>
+
+      <!-- 4 -->
+      <div class="gallery-card" data-cat="phone">
+        <img src="gallery/phone_view_4_filters.png" alt="درج الفلاتر">
+        <div class="card-info">
+          <div>
+            <h3>4. درج الفلاتر وتصنيف المنتجات (Filter Drawer)</h3>
+            <p>الفلترة حسب الأقسام، وفلتر منتجات مصرية فقط 🇪🇬 والماركات والأسعار.</p>
+          </div>
+          <a href="gallery/phone_view_4_filters.png" target="_blank" class="btn-view"><i class="fas fa-expand"></i> فتح الصورة بالحجم الكامل</a>
+        </div>
+      </div>
+
+      <!-- 5 -->
+      <div class="gallery-card" data-cat="phone">
+        <img src="gallery/phone_view_5_checkout.png" alt="تأكيد الطلب بالواتساب">
+        <div class="card-info">
+          <div>
+            <h3>5. تأكيد الطلب بالواتساب (WhatsApp Checkout)</h3>
+            <p>نموذج إدخال اسم العميل، التليفون، العنوان بالتفصيل بالخانكة وإرسال الفاتورة.</p>
+          </div>
+          <a href="gallery/phone_view_5_checkout.png" target="_blank" class="btn-view"><i class="fas fa-expand"></i> فتح الصورة بالحجم الكامل</a>
+        </div>
+      </div>
+
+      <!-- 6 -->
+      <div class="gallery-card" data-cat="admin">
+        <img src="gallery/gallery_09_admin_login.png" alt="شاشة قفل لوحة التحكم">
+        <div class="card-info">
+          <div>
+            <h3>6. قفل الأمان بالـ PIN (كلمة السر 582008)</h3>
+            <p>حماية لوحة التحكم بكود الأمان المخصص 582008.</p>
+          </div>
+          <a href="gallery/gallery_09_admin_login.png" target="_blank" class="btn-view"><i class="fas fa-expand"></i> فتح الصورة بالحجم الكامل</a>
+        </div>
+      </div>
+
+      <!-- 7 -->
+      <div class="gallery-card" data-cat="admin">
+        <img src="gallery/gallery_10_admin_overview.png" alt="لوحة المبيعات والطلبات">
+        <div class="card-info">
+          <div>
+            <h3>7. لوحة المبيعات والطلبات (Admin Overview)</h3>
+            <p>إحصائيات 582 منتج، جدول طلبات الواتساب، وتوزيع الأقسام.</p>
+          </div>
+          <a href="gallery/gallery_10_admin_overview.png" target="_blank" class="btn-view"><i class="fas fa-expand"></i> فتح الصورة بالحجم الكامل</a>
+        </div>
+      </div>
+
+      <!-- 8 -->
+      <div class="gallery-card" data-cat="admin">
+        <img src="gallery/gallery_11_admin_add_product.png" alt="إضافة منتج جديد">
+        <div class="card-info">
+          <div>
+            <h3>8. إضافة منتج جديد للكتالوج (Add Product)</h3>
+            <p>معاينة صورة المنتج الحية، الاسم، الماركة، السعر، وعلامة منتج مصري 🇪🇬.</p>
+          </div>
+          <a href="gallery/gallery_11_admin_add_product.png" target="_blank" class="btn-view"><i class="fas fa-expand"></i> فتح الصورة بالحجم الكامل</a>
+        </div>
+      </div>
+
+      <!-- 9 -->
+      <div class="gallery-card" data-cat="admin">
+        <img src="gallery/gallery_12_admin_edit_product.png" alt="تعديل اسم المنتج وسعره">
+        <div class="card-info">
+          <div>
+            <h3>9. تعديل اسم المنتج وسعره (Edit Product)</h3>
+            <p>تعديل اسم المنتج بالعربي، الماركة، القسم، السعر الرسمي، وتوافر المخزون.</p>
+          </div>
+          <a href="gallery/gallery_12_admin_edit_product.png" target="_blank" class="btn-view"><i class="fas fa-expand"></i> فتح الصورة بالحجم الكامل</a>
+        </div>
+      </div>
+
+      <!-- 10 -->
+      <div class="gallery-card" data-cat="desktop">
+        <img src="gallery/gallery_07_desktop_home.png" alt="واجهة الكمبيوتر">
+        <div class="card-info">
+          <div>
+            <h3>10. واجهة المتجر على الكمبيوتر (Desktop View)</h3>
+            <p>الهيدر الموسع، البانر العريض وشبكة الـ 4 أعمدة والشريط الجانبي.</p>
+          </div>
+          <a href="gallery/gallery_07_desktop_home.png" target="_blank" class="btn-view"><i class="fas fa-expand"></i> فتح الصورة بالحجم الكامل</a>
+        </div>
+      </div>
+
+      <!-- 11 -->
+      <div class="gallery-card" data-cat="desktop">
+        <img src="gallery/gallery_08_desktop_quickview.png" alt="المعاينة السريعة">
+        <div class="card-info">
+          <div>
+            <h3>11. نافذة المعاينة السريعة (Quick View Modal)</h3>
+            <p>صورة المنتج المكبرة وتفاصيل الحجم والسعر والإضافة المباشرة للسلة.</p>
+          </div>
+          <a href="gallery/gallery_08_desktop_quickview.png" target="_blank" class="btn-view"><i class="fas fa-expand"></i> فتح الصورة بالحجم الكامل</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function filterTab(cat) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.closest('.tab-btn').classList.add('active');
+      
+      const cards = document.querySelectorAll('.gallery-card');
+      cards.forEach(card => {
+        if (cat === 'all' || card.getAttribute('data-cat') === cat) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
