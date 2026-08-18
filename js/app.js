@@ -21,10 +21,10 @@ const DEPARTMENTS_MOCKUP = [
   { id: "noodles", name: "النودلز وسريعة التحضير", icon: "fas fa-bowl-food", bg: "#f59e0b", image: "images/indomie_special_chicken_noodles_70g.png" },
   { id: "groceries", name: "مستلزمات الطبخ والبيت", icon: "fas fa-utensils", bg: "#8b5cf6", image: "images/el_doha_egyptian_white_rice_1kg.png" },
   { id: "drinks", name: "المشروبات والعصائر", icon: "fas fa-wine-bottle", bg: "#10b981", image: "images/pepsi_can_330ml.png" },
-  { id: "sweets", name: "السناكس والحلويات", icon: "fas fa-cookie-bite", bg: "#f97316", image: "images/cadbury_dairy_milk_bubbly_87g.png" },
-  { id: "frozen", name: "المجمدات واللحوم", icon: "fas fa-snowflake", bg: "#06b6d4", image: "images/givrex_frozen_minced_molokhia_400g.png" },
-  { id: "energy", name: "مشروبات الطاقة", icon: "fas fa-bolt", bg: "#ef4444", image: "images/fury_energy_drink_gold_250ml.png" },
-  { id: "egyptian", name: "منتجات مصرية 🇪🇬", icon: "fas fa-flag", bg: "#dc2626", image: "images/chipsy_chili_lemon_10egp.png" }
+  { id: "snacks", name: "السناكس والمقرمشات", icon: "fas fa-cookie-bite", bg: "#f97316", image: "images/chipsy_chili_lemon_10egp.png" },
+  { id: "sweets", name: "الحلويات والشوكولاتة", icon: "fas fa-candy-cane", bg: "#ec4899", image: "images/cadbury_dairy_milk_bubbly_87g.png" },
+  { id: "icecream", name: "المثلجات والآيس كريم", icon: "fas fa-ice-cream", bg: "#06b6d4", image: "images/friday-combo-vanilla-cookies-cone.png" },
+  { id: "frozen", name: "المجمدات واللحوم", icon: "fas fa-snowflake", bg: "#6366f1", image: "images/givrex_frozen_minced_molokhia_400g.png" }
 ];
 
 // ==================== Application State ====================
@@ -389,13 +389,14 @@ function renderProductsGrid() {
       <div class="super-product-card" id="card_${product.id}">
         <div class="card-head-row">
           ${product.isEgyptian ? '<span class="origin-badge-flag"><i class="fas fa-flag"></i> صنع في مصر 🇪🇬</span>' : '<span></span>'}
+          ${product.inStock === false ? '<span style="background:#ef4444; color:#ffffff; font-size:0.68rem; font-weight:800; padding:2px 6px; border-radius:4px;"><i class="fas fa-ban"></i> غير متوفر</span>' : ''}
           <button class="btn-card-heart ${isWishlisted ? 'active' : ''}" onclick="toggleWishlist('${product.id}', event)" title="المفضلة">
             <i class="${isWishlisted ? 'fas' : 'far'} fa-heart"></i>
           </button>
         </div>
 
         <div class="card-product-img-box" onclick="openQuickView('${product.id}')">
-          <img src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.src='images/farm-frites-pommes-frites-1kg.png'">
+          <img src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.src='images/farm-frites-pommes-frites-1kg.png'" style="${product.inStock === false ? 'filter:grayscale(60%); opacity:0.8;' : ''}">
         </div>
 
         <span class="card-brand-label" onclick="filterByBrand('${product.brand.replace(/'/g, "\\'")}')">${product.brand}</span>
@@ -420,10 +421,17 @@ function renderProductsGrid() {
             <span class="qty-val-display" id="qty_val_${product.id}">${qty}</span>
             <button class="qty-step-btn" onclick="stepCardQty('${product.id}', 1)">+</button>
           </div>
-          <button class="btn-card-add-cart" onclick="addToCartFromCard('${product.id}')">
-            <i class="fas fa-cart-plus"></i>
-            <span>أضف للسلة</span>
-          </button>
+          ${product.inStock === false ? `
+            <button class="btn-card-add-cart" disabled style="background:#64748b; opacity:0.65; cursor:not-allowed;">
+              <i class="fas fa-times-circle"></i>
+              <span>نفذت الكمية</span>
+            </button>
+          ` : `
+            <button class="btn-card-add-cart" onclick="addToCartFromCard('${product.id}')">
+              <i class="fas fa-cart-plus"></i>
+              <span>أضف للسلة</span>
+            </button>
+          `}
         </div>
       </div>
     `;
@@ -941,20 +949,23 @@ function scrollToDepartments() {
   document.getElementById("departmentsSection")?.scrollIntoView({ behavior: "smooth" });
 }
 
-// ==================== 14. Toast Notification ====================
-function showToast(message) {
-  const container = document.getElementById("toastContainer");
-  if (!container) return;
+// ==================== 15. Secret Admin Trigger (3 Clicks) ====================
+let secretAdminClicks = 0;
+let secretAdminTimer = null;
 
-  const toast = document.createElement("div");
-  toast.className = "super-toast-item";
-  toast.innerHTML = `<i class="fas fa-shopping-cart text-gold"></i> <span>${message}</span>`;
-  container.appendChild(toast);
+function handleSecretAdminTrigger() {
+  secretAdminClicks++;
+  clearTimeout(secretAdminTimer);
 
-  setTimeout(() => {
-    toast.style.opacity = "0";
-    toast.style.transform = "translateX(100%)";
-    toast.style.transition = "all 0.3s ease";
-    setTimeout(() => toast.remove(), 300);
-  }, 3200);
+  if (secretAdminClicks === 3) {
+    secretAdminClicks = 0;
+    showToast("🔒 جاري التحويل إلى لوحة الإدارة...");
+    setTimeout(() => {
+      window.location.href = "admin.html";
+    }, 500);
+  } else {
+    secretAdminTimer = setTimeout(() => {
+      secretAdminClicks = 0;
+    }, 1200);
+  }
 }

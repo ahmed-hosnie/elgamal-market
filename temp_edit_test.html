@@ -886,15 +886,13 @@
           <input type="text" id="adminSearchInput" class="admin-search-input" placeholder="ابحث في الكتالوج بالاسم، الماركة، أو النكهة..." oninput="filterAdminProducts(this.value)">
           <select id="adminCategorySelect" class="admin-filter-select" onchange="filterAdminByCategory(this.value)">
             <option value="all">جميع الأقسام</option>
-            <option value="snacks">السناكس والمقرمشات 🥔</option>
-            <option value="sweets">الحلويات والشوكولاتة 🍫</option>
-            <option value="icecream">المثلجات والآيس كريم 🍦</option>
-            <option value="dairy">الألبان ومنتجاتها 🧀</option>
-            <option value="noodles">النودلز وسريعة التحضير 🍜</option>
-            <option value="groceries">مستلزمات الطبخ والبيت 🥫</option>
-            <option value="drinks">المشروبات والعصائر 🥤</option>
-            <option value="frozen">المجمدات واللحوم 🍗</option>
-            <option value="energy">مشروبات الطاقة ⚡</option>
+            <option value="noodles">النودلز وسريعة التحضير</option>
+            <option value="dairy">الألبان ومنتجاتها</option>
+            <option value="groceries">مستلزمات الطبخ والبيت</option>
+            <option value="drinks">المشروبات والعصائر</option>
+            <option value="sweets">السناكس والحلويات</option>
+            <option value="frozen">المجمدات واللحوم</option>
+            <option value="energy">مشروبات الطاقة</option>
             <option value="egyptian">منتجات مصرية 🇪🇬</option>
           </select>
         </div>
@@ -944,11 +942,9 @@
         <div>
           <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.35rem; color:#ffffff;">القسم والتصنيف:</label>
           <select id="editModalCategoryInput" class="admin-filter-select" style="width:100%;">
-            <option value="snacks">السناكس والمقرمشات 🥔</option>
-            <option value="sweets">الحلويات والشوكولاتة 🍫</option>
-            <option value="icecream">المثلجات والآيس كريم 🍦</option>
-            <option value="dairy">الألبان ومنتجاتها 🧀</option>
+            <option value="sweets">السناكس والحلويات 🥔</option>
             <option value="noodles">النودلز وسريعة التحضير 🍜</option>
+            <option value="dairy">الألبان ومنتجاتها 🧀</option>
             <option value="groceries">مستلزمات الطبخ والبيت 🥫</option>
             <option value="drinks">المشروبات والعصائر 🥤</option>
             <option value="frozen">المجمدات واللحوم 🍗</option>
@@ -1023,13 +1019,11 @@
         <div>
           <label style="font-size:0.8rem; font-weight:700; display:block; margin-bottom:0.35rem;">القسم الرئيسي: <span style="color:var(--red);">*</span></label>
           <select id="newProdCategory" class="admin-filter-select" style="width:100%;">
-            <option value="snacks" selected>السناكس والمقرمشات 🥔</option>
-            <option value="sweets">الحلويات والشوكولاتة 🍫</option>
-            <option value="icecream">المثلجات والآيس كريم 🍦</option>
-            <option value="dairy">الألبان ومنتجاتها 🧀</option>
+            <option value="dairy" selected>الألبان ومنتجاتها 🧀</option>
             <option value="noodles">النودلز وسريعة التحضير 🍜</option>
             <option value="groceries">مستلزمات الطبخ والبيت 🥫</option>
             <option value="drinks">المشروبات والعصائر 🥤</option>
+            <option value="sweets">السناكس والحلويات 🍫</option>
             <option value="frozen">المجمدات واللحوم 🍗</option>
             <option value="energy">مشروبات الطاقة ⚡</option>
           </select>
@@ -1268,5 +1262,5 @@
       }
     }
   </script>
-</body>
+<script>window.addEventListener("DOMContentLoaded", () => { sessionStorage.setItem("elgamal_admin_auth", "true"); document.getElementById("loginScreen").style.display = "none"; document.getElementById("adminApp").style.display = "grid"; renderAdminProducts(); openEditModal("doritos_nacho_cheese_48g"); });</script></body>
 </html>
